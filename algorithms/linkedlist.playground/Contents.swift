@@ -1,86 +1,111 @@
-//: Playground - noun: a place where people can play
-
+// create by wonwoo.lee
 import UIKit
 
 class Node<T>{
     var val:T
     var next:Node?
-    
     init(_ val:T) {
         self.val = val
+    }
+    deinit {
+        print("deinit - val \(self.val)")
     }
 }
 
 class LinkedList<T>{
-    var head:Node<T>?
     
-    func insertRear(node:Node<T>){
-        var cur = head
-        while true {
-            if let next = cur?.next{
-                cur = next
-                continue
+    private var head:Node<T>? = nil
+    func append(node:Node<T>){
+        
+        if head != nil {
+            var curNode:Node<T>? = head
+            while (curNode?.next) != nil {
+                curNode = curNode?.next
             }
             
-            cur?.next = node
-            return
+            curNode?.next = node
+            
+        }else{
+            head = node
         }
     }
     
-    func insertAfter(prevNode:Node<T>, insertNode:Node<T>){
-        var cur = head
-        while true {
-            if cur === prevNode{
-                insertNode.next = cur?.next
-                cur?.next = insertNode
-                return
-            }
-            
-            if let next = cur?.next{
-                cur = next
-                continue
-            }
-            
-            return
-        }
-    }
-    
-    
-    
-    func delete(node:Node<T>){
-        let cur = head?.next
-        let prev = head
-        while true {
-            if cur === node{
-                prev?.next = cur?.next
-                cur?.next = nil
-                return
-            }
-            
-            cur?.next = cur?.next?.next
-        }
+    func append(_ val:T){
+        append(node: Node<T>(val))
     }
     
     func lprint(){
-        while true {
-            guard let n =  head?.next else{
-                return
+        var node:Node<T>? = head
+        while node != nil {
+            print(node?.val)
+            node = node?.next
+        }
+    }
+    
+    func insert(val:T, at:Int)->Bool{
+        return insert(node:Node<T>(val), at:at)
+    }
+    func insert(node:Node<T>, at:Int)->Bool{
+        var curNode = head
+        var idx:Int = 0
+        while curNode != nil {
+            if (at-1) == idx{
+                node.next = curNode?.next
+                curNode?.next = node
+                return true
+            }else if at == 0{
+                node.next = head
+                head = node
+                return true
             }
             
-            print("\(n.val)")
-            head?.next = head?.next?.next
+            curNode = curNode?.next
+            idx += 1
         }
+        
+        return false
+    }
+    
+    func removeAll(){
+        head = nil
+    }
+    
+    func removeAt(at:Int)->Bool{
+        var curNode = head
+        var prevNode:Node<T>? = nil
+        var idx:Int = 0
+        while curNode != nil {
+            if at == 0{
+                head = head?.next
+                return true
+            }else if at == idx{
+                prevNode?.next = curNode?.next
+                return true
+            }
+
+            prevNode = curNode
+            curNode = curNode?.next
+            idx += 1
+        }
+        
+        return false
+    }
+    
+    func removeLast(){
+        
     }
 }
 
-var lst = LinkedList<Int>()
-lst.head = Node<Int>(-1)
-lst.insertRear(node: Node(10))
-let n11 = Node(11)
-lst.insertRear(node: n11)
-let n15 = Node(15)
-lst.insertRear(node: n15)
-lst.insertAfter(prevNode: n11, insertNode: Node(14))
-lst.insertAfter(prevNode: n15, insertNode: Node(16))
-lst.lprint()
+var ll = LinkedList<Int>()
+ll.append(1)
+ll.append(10)
+ll.append(11)
+ll.append(9)
+ll.append(node: Node<Int>(113))
+ll.insert(val: 100, at: 1)
+ll.lprint()
+ll.removeAt(at: 5)
+ll.lprint()
+ll.removeAll()
+
 
