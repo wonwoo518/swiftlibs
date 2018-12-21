@@ -114,34 +114,3 @@ class MyQueueV2<T>{
 //q.deque()
 //q.qprint()
 
-//circular queue
-class MyQueueV3<T>{
-    private var array:Array<T> = Array<T>()
-    func isEmpty() -> Bool {
-        return array.isEmpty
-    }
-    
-    func count()->Int{
-        return array.count
-    }
-    
-    func enque(val:T){
-        array.append(val)
-    }
-    
-    func deque()->T?{
-        if array.isEmpty {
-            return nil
-        }
-        
-        return array.removeFirst()
-    }
-    
-    func qprint(){
-        array.map{
-            print($0)
-        }
-    }
-}
-
-
