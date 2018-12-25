@@ -2,22 +2,22 @@
 
 import UIKit
 
-func mergesort(_ input:Array<Int>)->Array<Int>{
+func mergesort<T:Comparable>(_ input:Array<T>)->Array<T>{
     if input.count == 1{
         return input
     }
     
     let firstCnt:Int = input.count - input.count/2
     let lastCnt:Int = input.count - firstCnt
-
-    let re1 = mergesort(Array<Int>(input.dropFirst(firstCnt)))
-    let re2 = mergesort(Array<Int>(input.dropLast(lastCnt)))
-
+    
+    let re1 = mergesort(Array<T>(input.dropFirst(firstCnt)))
+    let re2 = mergesort(Array<T>(input.dropLast(lastCnt)))
+    
     return arrange(re1, re2)
 }
 
-func arrange(_ arr1:Array<Int>, _ arr2:Array<Int>)->Array<Int>{
-    var arr3:Array<Int> = []
+func arrange<T:Comparable>(_ arr1:Array<T>, _ arr2:Array<T>)->Array<T>{
+    var arr3:Array<T> = []
     var src1 = arr1
     var src2 = arr2
     while src1.count != 0 && src2.count != 0 {
@@ -27,7 +27,7 @@ func arrange(_ arr1:Array<Int>, _ arr2:Array<Int>)->Array<Int>{
             arr3.append(src1.removeFirst())
         }
     }
-
+    
     (src1 + src2).map{
         arr3.append($0)
     }
@@ -35,6 +35,4 @@ func arrange(_ arr1:Array<Int>, _ arr2:Array<Int>)->Array<Int>{
     return arr3
 }
 
-print(mergesort([2,1,3,4,8,7,6]))
-
-
+mergesort([2,1,3,4,8,7,6])
