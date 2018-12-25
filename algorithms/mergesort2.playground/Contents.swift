@@ -35,4 +35,5 @@ func arrange<T:Comparable>(_ arr1:Array<T>, _ arr2:Array<T>)->Array<T>{
     return arr3
 }
 
-mergesort([2,1,3,4,8,7,6])
+print(mergesort(["3","a","c","d","E","f","G","0","1"]))
+print(mergesort([2,1,3,4,8,7,6]))
