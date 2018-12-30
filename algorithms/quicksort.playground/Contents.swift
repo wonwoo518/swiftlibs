@@ -37,7 +37,6 @@ func partition<T:Comparable>(input:inout Array<T>, left:Int, right:Int)->Int{
     }
     
     (input[i], input[right]) = (input[right], input[i])
-    print(input)
     return i
 }
 
@@ -61,7 +60,7 @@ func partition<T:Comparable>(input:inout Array<T>, left:Int, right:Int)->Int{
 //    return less.count
 //}
 
-var arr = [0,9,9,5,2,4,1,3]
+var arr = [0,9,9,5,2,4,1,3,11,10,19]
 
 quicksortV2(&arr, left: 0, right: arr.count-1)
 print(arr)
