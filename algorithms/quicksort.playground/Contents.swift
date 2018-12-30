@@ -27,12 +27,12 @@ func quicksortV2<T:Comparable>(_ input:inout Array<T>, left:Int, right:Int){
 func partition<T:Comparable>(input:inout Array<T>, left:Int, right:Int)->Int{
 
     var pivot = right
-    var i = left
+    var i = left // i는 비교 기준이 되는 원소의 index
     
     for j in left ..< right{
         if input[j] <= input[pivot]{
-            (input[i], input[j]) = (input[j], input[i])
-            i += 1
+            (input[i], input[j]) = (input[j], input[i]) // * input[j]는 pivot보다 작음. input[j]를 input[i]와 바꿈으로 input[pivot]보다 작은 값을 앞쪽으로 이동시킨다.
+            i += 1                                      // i원소는 pivot보다 작으므로 i값을 증가시켜 그다음 원소부터 비교
         }
     }
     
