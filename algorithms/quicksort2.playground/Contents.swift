@@ -42,15 +42,13 @@ func partitionSimple<T:Comparable>(input:inout Array<T>, left:Int, right:Int)->I
 func partitionHoare<T:Comparable>(input:inout Array<T>, left:Int, right:Int)->Int{
     
     var pivot = left
-    var low = left
-    var high = right + 1
+    var low = left + 1
+    var high = right
     
     while true {
         
-        repeat{ high -= 1 } while (high >= left) && (input[high] > input[pivot]) //뒤에서부터 pivot원소보다 작은 값의 index를 찾는다.
-        repeat{ low += 1 } while (low <= right) && (input[low] < input[pivot])   //앞에서부터 pivot원소보다 큰 값의 index를 찾는다.
-        
-        print("low = \(low), high = \(high) \(input[low]), \(input[high])")
+        while (high > left) && (input[high] > input[pivot]) { high -= 1 }       //뒤에서부터 pivot원소보다 작은 값의 index를 찾는다.
+        while (low <= right) && (input[low] < input[pivot]) { low += 1 }        //앞에서부터 pivot원소보다 큰 값의 index를 찾는다.
         
         if low < high{
             (input[high], input[low]) = (input[low], input[high])
@@ -59,7 +57,6 @@ func partitionHoare<T:Comparable>(input:inout Array<T>, left:Int, right:Int)->In
             pivot = high
             break
         }
-        print(input)
     }
     
     return pivot
@@ -83,23 +80,8 @@ func partition<T:Comparable>(input:inout Array<T>, left:Int, right:Int)->Int{
     return pivot
 }
 
-
-
-
-var arr = [111,9,11,10,0,9,5,4]
-
+var arr = [80,2,1,111,9,11,10,0,9,5,4]
 quicksortV2(&arr, left: 0, right: arr.count-1)
 print(arr)
 
-
-func a(){
-    var arr:Array<Int> = [1,2]
-    var i = 0
-    repeat{
-        print("!")
-        i += 1
-    }while false && arr[10] < 1
-}
-
-a()
 
