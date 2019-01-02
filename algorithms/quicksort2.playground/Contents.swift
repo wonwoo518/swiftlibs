@@ -8,8 +8,8 @@ func quicksortV2<T:Comparable>(_ input:inout Array<T>, left:Int, right:Int){
         return
     }
     
-    //    let pivot = partition(input: &input, left:left, right:right)    //Lomuto's partition
-    let pivot = partitionHoare(input: &input, left:left, right:right) // hoare's partition
+    let pivot = partition(input: &input, left:left, right:right)    //Lomuto's partition
+    //let pivot = partitionHoare(input: &input, left:left, right:right) // hoare's partition
     //    let pivot = partitionSimple(input: &input, left:left, right:right) // simple version
     
     quicksortV2(&input, left:left, right: pivot-1)
@@ -80,7 +80,7 @@ func partition<T:Comparable>(input:inout Array<T>, left:Int, right:Int)->Int{
     return pivot
 }
 
-var arr = [80,2,1,111,9,11,10,0,9,5,4]
+var arr = [80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4,80,2,1,111,9,11,10,0,9,5,4]
 quicksortV2(&arr, left: 0, right: arr.count-1)
 print(arr)
 

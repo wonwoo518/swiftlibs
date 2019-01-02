@@ -5,19 +5,30 @@ func binarysearch<T:Comparable>(input:inout Array<T>, start:Int, end:Int, search
         return input[start] == searchVal ? start : -1
     }
     
-    let leftEnd = (end - start)/2
-    let rightStart = end - leftEnd
-    let retLeft = binarysearch(input: &input, start: start, end: leftEnd, searchVal: searchVal)
-    if retLeft != -1{
-        return retLeft
+    let center:Int = start + (end - start)/2
+    
+    if searchVal == input[center]{
+        return center
     }
     
-    let retRight = binarysearch(input: &input, start: rightStart, end: leftEnd, searchVal: searchVal)
-    if retRight != -1{
-        return retRight
+    var ret:Int = -1
+    let leftStart = start
+    let leftEnd = center - 1
+    let rightStart = center + 1
+    let rightEnd = end
+    
+    if input[center] > searchVal{
+        ret = binarysearch(input: &input, start: leftStart, end: leftEnd, searchVal: searchVal)
+    }else{
+        ret = binarysearch(input: &input, start: rightStart, end: rightEnd, searchVal: searchVal)
     }
     
-    return -1
+    
+    return ret
 }
 
 var arr = [1,9,10,18,20,29,30,113,134] 
+print(binarysearch(input: &arr, start: 0, end: arr.count-1, searchVal: 1))
+
+
+
