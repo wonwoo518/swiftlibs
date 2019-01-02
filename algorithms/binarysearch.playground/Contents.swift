@@ -27,8 +27,9 @@ func binarysearch<T:Comparable>(input:inout Array<T>, start:Int, end:Int, search
     return ret
 }
 
-var arr = [1,9,10,18,20,29,30,113,134] 
-print(binarysearch(input: &arr, start: 0, end: arr.count-1, searchVal: 1))
+var arr = [1,9,10,18,20,29,30,113,134]
+var arr2 = ["a","c","f","g","n","q","r","z"]
+print(binarysearch(input: &arr2, start: 0, end: arr2.count-1, searchVal: "c"))
 
 
 
