@@ -20,30 +20,39 @@ class BinarySearchTree<T:Comparable>{
             return
         }
         
-        var curNode:Node<T>? = nil
         var parentNode = rootNode
         
-        while parentNode != nil {
+        while var curNode = parentNode {
             
-            if parentNode?.val == insertItem{
+            if curNode.val == insertItem {
                 return
             }
             
-            if parentNode?.val > insertItem{
-                parentNode = parentNode?.right
-                continue
+            if curNode.val > insertItem {
+                if let child = curNode.right{
+                    curNode = child
+                    continue
+                }
+                
+                curNode.right = Node(val: insertItem)
+                return
             }
             
-            if parentNode?.val < insertItem{
+            if curNode.val < insertItem {
+                if let child = curNode.left{
+                    parentNode = child
+                    continue
+                }
                 
+                curNode.left = Node(val: insertItem)
+                return
             }
         }
-        
     }
     
     
     func traverse(searchVal:T){
-        print("")
+        
     }
     
     func showTree(){
