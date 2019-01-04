@@ -51,9 +51,21 @@ class BinarySearchTree<T:Comparable>{
     }
     
     
-    func traverse(searchVal:T){
-        
+    func traverse(){
+        traverse(rootNode)
     }
+
+    private func traverse(_ rootNode:Node<T>?){
+        
+        if rootNode == nil{
+            return
+        }
+   
+        traverse(rootNode?.left)
+        print(rootNode?.val)
+        traverse(rootNode?.right)
+    }
+    
     
     func showTree(){
     }
@@ -62,4 +74,12 @@ class BinarySearchTree<T:Comparable>{
     }
 }
 
+
+var bst = BinarySearchTree<Int>()
+bst.insert(insertItem: 5)
+bst.insert(insertItem: 2)
+bst.insert(insertItem: 8)
+bst.insert(insertItem: 1)
+bst.insert(insertItem: 3)
+bst.traverse()
 
