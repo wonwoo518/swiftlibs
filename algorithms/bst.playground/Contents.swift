@@ -28,9 +28,9 @@ class BinarySearchTree<T:Comparable>{
                 return
             }
             
-            if curNode.val > insertItem {
+            if curNode.val < insertItem {
                 if let child = curNode.right{
-                    curNode = child
+                    parentNode = child
                     continue
                 }
                 
@@ -38,18 +38,17 @@ class BinarySearchTree<T:Comparable>{
                 return
             }
             
-            if curNode.val < insertItem {
+            if curNode.val > insertItem {
                 if let child = curNode.left{
                     parentNode = child
                     continue
                 }
-                
+
                 curNode.left = Node(val: insertItem)
                 return
             }
         }
     }
-    
     
     func traverse(){
         traverse(rootNode)
@@ -62,16 +61,39 @@ class BinarySearchTree<T:Comparable>{
         }
    
         traverse(rootNode?.left)
-        print(rootNode?.val)
+        print(rootNode?.val ?? "")
         traverse(rootNode?.right)
     }
     
+    func search(val:T)->Bool{
+        return search(root:rootNode, val:val)
+    }
+    private func search(root:Node<T>?, val:T)->Bool{
+        
+        guard let root = root else{
+            return false
+        }
+        
+        if root.val == val{
+            return true
+        }
+        
+        if root.val > val{
+            return search(root:root.left, val:val)
+        }
+        
+        return search(root:root.right, val:val)
+    }
     
     func showTree(){
     }
     
     func delete(deleteItem:T){
     }
+}
+
+extension BinarySearchTree{
+    
 }
 
 
@@ -81,5 +103,6 @@ bst.insert(insertItem: 2)
 bst.insert(insertItem: 8)
 bst.insert(insertItem: 1)
 bst.insert(insertItem: 3)
+bst.insert(insertItem: 4)
 bst.traverse()
-
+print("tree has value = \(bst.search(val:8))")
