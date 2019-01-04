@@ -66,16 +66,16 @@ class BinarySearchTree<T:Comparable>{
     }
     
     func search(val:T)->Bool{
-        return search(root:rootNode, val:val)
+        return search(root:rootNode, val:val).0
     }
-    private func search(root:Node<T>?, val:T)->Bool{
+    private func search(root:Node<T>?, val:T)->(Bool, Node<T>?){
         
         guard let root = root else{
-            return false
+            return (false, nil)
         }
         
         if root.val == val{
-            return true
+            return (true, root)
         }
         
         if root.val > val{
@@ -85,16 +85,28 @@ class BinarySearchTree<T:Comparable>{
         return search(root:root.right, val:val)
     }
     
-    func showTree(){
+    func delete(deleteItem:T){
+        var searchNode = search(root:rootNode, val: deleteItem)
+        if searchNode.0 == false{
+            return
+        }
+        
+        
     }
     
-    func delete(deleteItem:T){
+    func isLeaf(node:Node<T>)->Bool{
+        if node.left == nil && node.right == nil{
+            return true
+        }
+        
+        return false
+    }
+    
+    func findLeftMost(node:Node<T>){
+        
     }
 }
 
-extension BinarySearchTree{
-    
-}
 
 
 var bst = BinarySearchTree<Int>()
