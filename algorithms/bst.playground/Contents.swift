@@ -3,11 +3,34 @@ import UIKit
 class BinarySearchTree<T:Comparable>{
     class Node<T>{
         var val:T
-        var left:Node? = nil
-        var right:Node? = nil
+        weak var parent:Node? = nil
+        var left:Node? = nil{
+            didSet{
+                left?.nodePosition = .left
+            }
+        }
+        var right:Node? = nil{
+            didSet{
+                right?.nodePosition = .right
+            }
+        }
         
+        enum NodePosition {
+            case left
+            case right
+            case none
+        }
+        var nodePosition:NodePosition = .none
+
         init(val:T) {
             self.val = val
+        }
+
+        deinit {
+            print("deinit val = \(val)")
+            parent = nil
+            left = nil
+            right = nil
         }
         
     }
@@ -22,7 +45,7 @@ class BinarySearchTree<T:Comparable>{
         
         var parentNode = rootNode
         
-        while var curNode = parentNode {
+        while let curNode = parentNode {
             
             if curNode.val == insertItem {
                 return
@@ -35,9 +58,10 @@ class BinarySearchTree<T:Comparable>{
                 }
                 
                 curNode.right = Node(val: insertItem)
+                curNode.right?.parent = curNode
                 return
             }
-            
+
             if curNode.val > insertItem {
                 if let child = curNode.left{
                     parentNode = child
@@ -45,6 +69,7 @@ class BinarySearchTree<T:Comparable>{
                 }
 
                 curNode.left = Node(val: insertItem)
+                curNode.left?.parent = curNode
                 return
             }
         }
@@ -86,12 +111,90 @@ class BinarySearchTree<T:Comparable>{
     }
     
     func delete(deleteItem:T){
+        
+        func deleteNode(node:Node<T>){
+            switch node.nodePosition {
+            case .left: node.parent?.left = nil
+            case .right: node.parent?.right = nil
+            default:
+                return
+            }
+        }
+        
         var searchNode = search(root:rootNode, val: deleteItem)
+        
+        //삭제하려는 노드가 없으면 그냥 리턴
         if searchNode.0 == false{
             return
         }
         
+        guard var nodeToDelete = searchNode.1 else{
+            return
+        }
         
+        //삭제하려는 노드가 리프이면 자신만 삭제
+        if nodeToDelete.left == nil && nodeToDelete.right == nil{
+            deleteNode(node: nodeToDelete)
+            return
+        }
+
+//        print("nodeToDelete.val = \(nodeToDelete.val)")
+//        print("nodeToDelete.left = \(nodeToDelete.left)")
+//        print("nodeToDelete.right = \(nodeToDelete.right)")
+        //삭제하려는 노느가 자식이 있으면 left most또는 right least를 찾아서 삭제할 노드와 교체한다.
+        var replaceNode = nodeToDelete.left != nil ? max(root:nodeToDelete.left!) : min(root: nodeToDelete.right!)
+        print("---------------")
+//        traverse()
+        print("---------------")
+        print("searchNode.1 = \(searchNode.1?.val)")
+        switchNode(toDeleteNode:&searchNode.1, toReplaceNode:&replaceNode)
+//        traverse()
+        
+        print("---------------")
+        print("searchNode.1 = \(searchNode.1?.val)")
+        
+        //left most 또는 right least의 자식이 있으면 삭제할 노드를 leaf로 보낸다.
+        if isLeaf(node: nodeToDelete) == false{
+            if nodeToDelete.left != nil {
+                switchNode(toDeleteNode: &searchNode.1, toReplaceNode: &nodeToDelete.left)
+            }else{
+                switchNode(toDeleteNode: &searchNode.1, toReplaceNode: &nodeToDelete.right)
+            }
+        }
+        
+        deleteNode(node: searchNode.1!)
+    }
+    
+    func min(root:Node<T>)->Node<T>?{
+        if let left = root.left{
+            print("min = \(root.val)")
+            return max(root: left)
+        }
+        
+        print("min = \(root.val)")
+        return root
+    }
+    
+    func max(root:Node<T>)->Node<T>?{
+        if let right = root.right{
+            print("max = \(root.val)")
+            return max(root: right)
+        }
+        print("max = \(root.val)")
+        return root
+    }
+    
+    func switchNode(toDeleteNode:inout Node<T>?, toReplaceNode:inout Node<T>?){
+
+//        print("toReplaceNode = \(toReplaceNode?.val), toDeleteNode = \(toDeleteNode)")
+
+        var val = toReplaceNode?.val
+        var temp = toDeleteNode
+        toDeleteNode = toReplaceNode
+        toReplaceNode = temp
+        toReplaceNode?.val = val!
+        
+//        print("toReplaceNode = \(toReplaceNode?.val), toDeleteNode = \(toDeleteNode)")
     }
     
     func isLeaf(node:Node<T>)->Bool{
@@ -100,10 +203,6 @@ class BinarySearchTree<T:Comparable>{
         }
         
         return false
-    }
-    
-    func findLeftMost(node:Node<T>){
-        
     }
 }
 
@@ -116,5 +215,8 @@ bst.insert(insertItem: 8)
 bst.insert(insertItem: 1)
 bst.insert(insertItem: 3)
 bst.insert(insertItem: 4)
-bst.traverse()
 print("tree has value = \(bst.search(val:8))")
+bst.delete(deleteItem: 5)
+bst.traverse()
+
+
