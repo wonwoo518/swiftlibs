@@ -1,3 +1,5 @@
+//Created by wonwoo.lee
+
 import UIKit
 
 class BinarySearchTree<T:Comparable>{
@@ -31,6 +33,14 @@ class BinarySearchTree<T:Comparable>{
             parent = nil
             left = nil
             right = nil
+        }
+        
+        func isLeaf()->Bool{
+            if left == nil && right == nil{
+                return true
+            }
+            
+            return false
         }
         
     }
@@ -86,7 +96,7 @@ class BinarySearchTree<T:Comparable>{
         }
    
         traverse(rootNode?.left)
-        print(rootNode?.val ?? "")
+        print("val = \((rootNode?.val)!) parent = \(rootNode?.parent?.val), left = \(rootNode?.left?.val), right = \(rootNode?.right?.val)")
         traverse(rootNode?.right)
     }
     
@@ -113,6 +123,7 @@ class BinarySearchTree<T:Comparable>{
     func delete(deleteItem:T){
         
         func deleteNode(node:Node<T>){
+            print("node = \(node.val), posi = \(node.nodePosition)")
             switch node.nodePosition {
             case .left: node.parent?.left = nil
             case .right: node.parent?.right = nil
@@ -133,36 +144,25 @@ class BinarySearchTree<T:Comparable>{
         }
         
         //삭제하려는 노드가 리프이면 자신만 삭제
-        if nodeToDelete.left == nil && nodeToDelete.right == nil{
+        if nodeToDelete.isLeaf(){
             deleteNode(node: nodeToDelete)
             return
         }
 
-//        print("nodeToDelete.val = \(nodeToDelete.val)")
-//        print("nodeToDelete.left = \(nodeToDelete.left)")
-//        print("nodeToDelete.right = \(nodeToDelete.right)")
         //삭제하려는 노느가 자식이 있으면 left most또는 right least를 찾아서 삭제할 노드와 교체한다.
         var replaceNode = nodeToDelete.left != nil ? max(root:nodeToDelete.left!) : min(root: nodeToDelete.right!)
-        print("---------------")
-//        traverse()
-        print("---------------")
-        print("searchNode.1 = \(searchNode.1?.val)")
-        switchNode(toDeleteNode:&searchNode.1, toReplaceNode:&replaceNode)
-//        traverse()
-        
-        print("---------------")
-        print("searchNode.1 = \(searchNode.1?.val)")
+        switchNode(toDeleteNode:&nodeToDelete, toReplaceNode:&replaceNode!)
         
         //left most 또는 right least의 자식이 있으면 삭제할 노드를 leaf로 보낸다.
-        if isLeaf(node: nodeToDelete) == false{
+        if nodeToDelete.isLeaf() == false{
             if nodeToDelete.left != nil {
-                switchNode(toDeleteNode: &searchNode.1, toReplaceNode: &nodeToDelete.left)
+                switchNode(toDeleteNode: &nodeToDelete, toReplaceNode: &nodeToDelete.left!)
             }else{
-                switchNode(toDeleteNode: &searchNode.1, toReplaceNode: &nodeToDelete.right)
+                switchNode(toDeleteNode: &nodeToDelete, toReplaceNode: &nodeToDelete.right!)
             }
         }
         
-        deleteNode(node: searchNode.1!)
+        deleteNode(node: nodeToDelete)
     }
     
     func min(root:Node<T>)->Node<T>?{
@@ -184,25 +184,17 @@ class BinarySearchTree<T:Comparable>{
         return root
     }
     
-    func switchNode(toDeleteNode:inout Node<T>?, toReplaceNode:inout Node<T>?){
+    func switchNode(toDeleteNode:inout Node<T>, toReplaceNode:inout Node<T>){
 
-//        print("toReplaceNode = \(toReplaceNode?.val), toDeleteNode = \(toDeleteNode)")
-
-        var val = toReplaceNode?.val
+        var replaceVal = toReplaceNode.val
+        var deleteVal = toDeleteNode.val
+        
         var temp = toDeleteNode
         toDeleteNode = toReplaceNode
         toReplaceNode = temp
-        toReplaceNode?.val = val!
         
-//        print("toReplaceNode = \(toReplaceNode?.val), toDeleteNode = \(toDeleteNode)")
-    }
-    
-    func isLeaf(node:Node<T>)->Bool{
-        if node.left == nil && node.right == nil{
-            return true
-        }
-        
-        return false
+        toDeleteNode.val = deleteVal
+        toReplaceNode.val = replaceVal
     }
 }
 
@@ -215,8 +207,12 @@ bst.insert(insertItem: 8)
 bst.insert(insertItem: 1)
 bst.insert(insertItem: 3)
 bst.insert(insertItem: 4)
+bst.insert(insertItem: 100)
+bst.insert(insertItem: 80)
+bst.insert(insertItem: 7)
+bst.insert(insertItem: 110)
 print("tree has value = \(bst.search(val:8))")
-bst.delete(deleteItem: 5)
+bst.delete(deleteItem: 8)
 bst.traverse()
 
 
