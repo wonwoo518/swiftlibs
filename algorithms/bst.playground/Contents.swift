@@ -168,7 +168,7 @@ class BinarySearchTree<T:Comparable>{
     func min(root:Node<T>)->Node<T>?{
         if let left = root.left{
             print("min = \(root.val)")
-            return max(root: left)
+            return min(root: left)
         }
         
         print("min = \(root.val)")
@@ -200,19 +200,30 @@ class BinarySearchTree<T:Comparable>{
 
 
 
-var bst = BinarySearchTree<Int>()
-bst.insert(insertItem: 5)
-bst.insert(insertItem: 2)
-bst.insert(insertItem: 8)
-bst.insert(insertItem: 1)
-bst.insert(insertItem: 3)
-bst.insert(insertItem: 4)
-bst.insert(insertItem: 100)
-bst.insert(insertItem: 80)
-bst.insert(insertItem: 7)
-bst.insert(insertItem: 110)
-print("tree has value = \(bst.search(val:8))")
-bst.delete(deleteItem: 8)
-bst.traverse()
+//var bst = BinarySearchTree<Int>()
+//bst.insert(insertItem: 5)
+//bst.insert(insertItem: 2)
+//bst.insert(insertItem: 8)
+//bst.insert(insertItem: 1)
+//bst.insert(insertItem: 3)
+//bst.insert(insertItem: 4)
+//bst.insert(insertItem: 100)
+//bst.insert(insertItem: 80)
+//bst.insert(insertItem: 7)
+//bst.insert(insertItem: 110)
+//print("tree has value = \(bst.search(val:8))")
+//bst.delete(deleteItem: 8)
+//bst.traverse()
+
+var bstString = BinarySearchTree<String>()
+bstString.insert(insertItem: "d")
+bstString.insert(insertItem: "a")
+bstString.insert(insertItem: "f")
+bstString.insert(insertItem: "b")
+bstString.insert(insertItem: "z")
+bstString.insert(insertItem: "k")
+bstString.insert(insertItem: "m")
+bstString.delete(deleteItem: "f")
+bstString.traverse()
 
 
